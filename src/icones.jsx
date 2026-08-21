@@ -176,6 +176,13 @@ export const IconeOlhoFechado = (p) => (
   </Svg>
 )
 
+export const IconeSino = (p) => (
+  <Svg {...p}>
+    <path d="M6 8a6 6 0 0 1 12 0c0 4.5 1.5 6 2 6H4c.5 0 2-1.5 2-6Z" />
+    <path d="M9.5 19a2.5 2.5 0 0 0 5 0" />
+  </Svg>
+)
+
 export const IconeAlerta = (p) => (
   <Svg {...p}>
     <path d="M10.3 3.9 1.9 18a1.8 1.8 0 0 0 1.5 2.7h17.2a1.8 1.8 0 0 0 1.5-2.7L13.7 3.9a1.8 1.8 0 0 0-3.4 0Z" />

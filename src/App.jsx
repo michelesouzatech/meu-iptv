@@ -37,6 +37,7 @@ import FichaCliente from './telas/FichaCliente.jsx'
 import Revendedores from './telas/Revendedores.jsx'
 import FichaRevendedor from './telas/FichaRevendedor.jsx'
 import Financeiro from './telas/Financeiro.jsx'
+import SinoNotificacoes from './SinoNotificacoes.jsx'
 
 const TELAS = [
   { id: 'hoje', nome: 'Hoje', Icone: IconeHoje },
@@ -194,6 +195,9 @@ export default function App() {
               </p>
               <p className="mt-1.5 text-[11px] leading-none text-nevoa">painel da revenda</p>
             </div>
+            <div className="ml-auto">
+              <SinoNotificacoes tamanho={18} userId={sessao.user.id} />
+            </div>
           </div>
 
           <nav className="mt-4 space-y-1">
@@ -231,12 +235,15 @@ export default function App() {
           <header className="vidro sticky top-0 z-20 flex items-center gap-2.5 border-b border-white/[0.06] px-5 pb-3.5 pt-[max(0.875rem,env(safe-area-inset-top))] pc:hidden">
             <Logo tamanho={24} />
             <p className="font-display text-[15px] font-bold tracking-tight text-tinta">Meu IPTV</p>
-            <button
-              onClick={() => supabase.auth.signOut()}
-              className="ml-auto rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-coral"
-            >
-              Sair
-            </button>
+            <div className="ml-auto flex items-center gap-2">
+              <SinoNotificacoes tamanho={18} userId={sessao.user.id} />
+              <button
+                onClick={() => supabase.auth.signOut()}
+                className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-coral"
+              >
+                Sair
+              </button>
+            </div>
           </header>
 
           {erro && (
