@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Meu IPTV — sistema visual "azul-noite"
+   Paleta e fontes definidas no PLANO.md (seção 1).
+   ============================================================ */
+
+@theme {
+  /* Cores do plano */
+  --color-noite: #0b1020; /* fundo */
+  --color-cartao: #151b2e; /* cartão */
+  --color-eletrico: #3b82f6; /* destaque */
+  --color-menta: #34d399; /* pago / ativo / no ar */
+  --color-coral: #fb7185; /* vencido */
+  --color-ambar: #fbbf24; /* a vencer */
+
+  /* Derivadas (mesma família, para profundidade e texto) */
+  --color-eletrico-fundo: #1d4ed8;
+  --color-nevoa: #8b95ad; /* texto secundário — 5.9:1 sobre o fundo */
+  --color-tinta: #e8ecf5; /* texto principal */
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --ease-suave: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* O menu lateral entra a partir daqui (o preview de computador tem ~1000px) */
+  --breakpoint-pc: 880px;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  /* Nunca preto puro: a base é um degradê azul-noite (regra de dark mode premium) */
+  background: linear-gradient(180deg, #0d1326 0%, #0b1020 45%, #070a14 100%);
+  background-attachment: fixed;
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Brilho ambiente (o clima da referência) ---------- */
+
+.brilho {
+  position: fixed;
+  border-radius: 9999px;
+  filter: blur(72px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.brilho-a {
+  top: -190px;
+  left: 50%;
+  width: 480px;
+  height: 480px;
+  margin-left: -240px;
+  background: rgba(59, 130, 246, 0.3);
+  animation: flutua-a 20s var(--ease-suave) infinite;
+}
+
+.brilho-b {
+  top: 160px;
+  right: -160px;
+  width: 340px;
+  height: 340px;
+  background: rgba(29, 78, 216, 0.22);
+  animation: flutua-b 26s var(--ease-suave) infinite;
+}
+
+@keyframes flutua-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-24px, 28px, 0);
+  }
+}
+
+@keyframes flutua-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-30px, -22px, 0);
+  }
+}
+
+/* ---------- Superfícies ---------- */
+
+/* Cartão de vidro com fio de luz na borda de cima */
+.superficie {
+  position: relative;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02)),
+    var(--color-cartao);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 40px -14px rgba(0, 0, 0, 0.7);
+}
+
+.superficie::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 22px;
+  right: 22px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+}
+
+/* Barra e menu translúcidos */
+.vidro {
+  background: rgba(11, 16, 32, 0.72);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+}
+
+/* ---------- Botão principal (a pílula da referência) ---------- */
+
+.pilula {
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 55%, var(--color-eletrico-fundo) 100%);
+  color: #fff;
+  box-shadow: 0 12px 30px -10px rgba(59, 130, 246, 0.65);
+  transition:
+    transform 160ms var(--ease-suave),
+    box-shadow 160ms var(--ease-suave);
+}
+
+.pilula:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+.pilula:disabled {
+  opacity: 0.6;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ---------- Entrada do conteúdo ao trocar de tela ---------- */
+
+@keyframes surge {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.surge {
+  animation: surge 0.42s var(--ease-suave) both;
+}
+
+.surge-2 {
+  animation: surge 0.42s var(--ease-suave) 0.06s both;
+}
+
+.surge-3 {
+  animation: surge 0.42s var(--ease-suave) 0.12s both;
+}
+
+/* ---------- Acessibilidade ---------- */
+
+:focus-visible {
+  outline: 2px solid var(--color-eletrico);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

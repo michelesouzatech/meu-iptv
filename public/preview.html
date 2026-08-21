@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meu IPTV — preview (celular + computador)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(180deg, #0d1326 0%, #0b1020 45%, #05070d 100%);
+        color: #e8ecf5;
+        font-family: Inter, system-ui, sans-serif;
+        overflow-x: auto;
+      }
+
+      /* mesmo brilho ambiente do app */
+      body::before {
+        content: "";
+        position: fixed;
+        top: -240px;
+        left: 50%;
+        width: 900px;
+        height: 560px;
+        margin-left: -450px;
+        background: rgba(59, 130, 246, 0.16);
+        filter: blur(90px);
+        border-radius: 9999px;
+        pointer-events: none;
+      }
+
+      header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+        padding: 26px 30px 8px;
+      }
+
+      h1 {
+        font-family: "Space Grotesk", system-ui, sans-serif;
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        margin: 0;
+      }
+      h1 span { color: #3b82f6; }
+
+      .dica { font-size: 13px; color: #8b95ad; margin: 6px 0 0; max-width: 62ch; line-height: 1.5; }
+
+      button {
+        margin-left: auto;
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        background: rgba(255, 255, 255, 0.04);
+        color: #e8ecf5;
+        font: inherit;
+        font-size: 13px;
+        padding: 9px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: border-color 160ms, color 160ms;
+      }
+      button:hover { border-color: #3b82f6; color: #3b82f6; }
+      button:focus-visible { outline: 2px solid #3b82f6; outline-offset: 3px; }
+
+      .palco {
+        position: relative;
+        display: flex;
+        gap: 36px;
+        align-items: flex-start;
+        padding: 20px 30px 44px;
+      }
+
+      .coluna { display: flex; flex-direction: column; gap: 11px; }
+
+      .rotulo {
+        font-family: "Space Grotesk", system-ui, sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #8b95ad;
+        margin: 0 0 0 4px;
+      }
+      .rotulo span { color: #3b82f6; }
+
+      /* ---------- celular ---------- */
+      .celular {
+        position: relative;
+        width: 412px;
+        height: 866px;
+        border-radius: 54px;
+        padding: 11px;
+        background: linear-gradient(160deg, #2b3247, #12172a);
+        box-shadow:
+          0 40px 80px -20px rgba(0, 0, 0, 0.75),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+        flex: none;
+        transform-origin: top center;
+      }
+      .celular .tela {
+        position: relative;
+        width: 390px;
+        height: 844px;
+        border-radius: 44px;
+        overflow: hidden;
+        background: #0d1326;
+      }
+      /* faixa de cima imitando a barra de status do celular,
+         pra ilha/entalhe não cair em cima do app */
+      .celular .tela iframe {
+        position: absolute;
+        top: 34px;
+        left: 0;
+        width: 390px;
+        height: 810px;
+      }
+      .entalhe {
+        position: absolute;
+        top: 9px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 96px;
+        height: 22px;
+        border-radius: 999px;
+        background: #05070d;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      /* ---------- computador ---------- */
+      .computador {
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: #0b1020;
+        box-shadow: 0 40px 80px -24px rgba(0, 0, 0, 0.7);
+      }
+      .barra {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 11px 15px;
+        background: rgba(255, 255, 255, 0.035);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .bolinha { width: 11px; height: 11px; border-radius: 50%; }
+      .url {
+        margin-left: 10px;
+        font-size: 12px;
+        color: #8b95ad;
+        background: rgba(0, 0, 0, 0.35);
+        border-radius: 7px;
+        padding: 4px 11px;
+      }
+
+      iframe { width: 100%; height: 100%; border: 0; display: block; background: #0b1020; }
+      .computador iframe { height: 822px; }
+
+      /* telas de computador mais baixas: encolhe pra caber sem cortar */
+      @media (max-height: 980px) {
+        .celular { transform: scale(0.82); }
+        .celular-caixa { height: 720px; }
+        .computador iframe { height: 690px; }
+      }
+
+      /* janela estreita: um embaixo do outro */
+      @media (max-width: 1240px) {
+        .palco { flex-direction: column; align-items: center; }
+        .computador { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>Meu IPTV — <span>preview</span></h1>
+        <p class="dica">
+          Os dois são o <strong>app de verdade</strong> rodando ao mesmo tempo, não são prints.
+          Pode clicar nos dois — e cada mudança que eu fizer aparece aqui sozinha.
+        </p>
+      </div>
+      <button onclick="recarregar()">Recarregar os dois</button>
+    </header>
+
+    <div class="palco">
+      <div class="coluna">
+        <p class="rotulo">Celular <span>390px</span></p>
+        <div class="celular-caixa">
+          <div class="celular">
+            <div class="tela">
+              <div class="entalhe"></div>
+              <iframe id="mobile" src="/" title="Meu IPTV no celular"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="coluna" style="flex: 1 1 900px; min-width: 0">
+        <p class="rotulo">Computador <span>largura cheia</span></p>
+        <div class="computador">
+          <div class="barra">
+            <span class="bolinha" style="background: #fb7185"></span>
+            <span class="bolinha" style="background: #fbbf24"></span>
+            <span class="bolinha" style="background: #34d399"></span>
+            <span class="url">localhost:5190 — Meu IPTV</span>
+          </div>
+          <iframe id="desktop" src="/" title="Meu IPTV no computador"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function recarregar() {
+        for (const id of ['mobile', 'desktop']) {
+          const f = document.getElementById(id)
+          f.src = f.src
+        }
+      }
+    </script>
+  </body>
+</html>
