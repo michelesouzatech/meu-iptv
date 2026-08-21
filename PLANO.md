@@ -112,6 +112,12 @@ revendedor:   valor cobrado, pago (sim/não)
 - [x] **Fase 6 — Publicar** *(Aula 3)*
       Supabase (dados de verdade + login) + deploy na Vercel. App no ar em
       https://meu-iptv-iota.vercel.app — falta só instalar no celular como app (atalho na tela inicial).
+      Sininho de notificações (push) adicionado. No celular ele só aparece depois que o
+      navegador tem a permissão de notificação disponível — se sumir, sair e entrar de
+      novo no app resolve (atualiza o estado de permissão).
+      Notificação automática de cobrança (Edge Function `notificar-cobranca` + pg_cron,
+      todo dia às 11:00 UTC / 08:00 em Brasília) testada e confirmada — inclusive
+      espelhando na tela da pulseira Mi Band via Mi Fitness no iPhone.
 
 > Da Fase 1 à 5 o app já é **inteiro**: cadastra, cobra, renova, controla estoque,
 > atende revendedor e mostra o lucro. Versão 2 é melhoria — nunca meio app.
@@ -121,7 +127,6 @@ revendedor:   valor cobrado, pago (sim/não)
 ## 6. Versão 2 (fica pra depois — nada se perde)
 
 - **Disparo automático de WhatsApp** (exige API paga e aprovação da Meta). No MVP fica o botão que abre a conversa com a mensagem pronta.
-- **Notificação de manhã no celular** ("cobrar hoje: 3 clientes") — precisa de servidor de notificação.
 - **Relatórios com gráficos** e exportar para planilha.
 - **Anexar comprovante** de pagamento na ficha do cliente.
 - **Login próprio do revendedor** pra ele mesmo ver o saldo de créditos dele.
